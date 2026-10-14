@@ -32,21 +32,30 @@ public class AdminBootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (adminEmail.isBlank() || adminPassword.isBlank()) {
-            return;
-        }
-        if (userRepository.count() > 0) {
+        if (adminEmail == null || adminEmail.isBlank() || adminPassword == null || adminPassword.isBlank()) {
             return;
         }
 
-        userRepository.save(UserEntity.builder()
-                .userId(UUID.randomUUID().toString())
-                .name("Administrator")
-                .email(adminEmail)
-                .password(passwordEncoder.encode(adminPassword))
-                .role("ROLE_ADMIN")
-                .build());
+        String email = adminEmail.trim();
+        String password = adminPassword.trim();
 
-        log.info("Bootstrapped initial admin account: {}", adminEmail);
+        userRepository.findByEmail(email).ifPresentOrElse(
+                user -> {
+                    user.setPassword(passwordEncoder.encode(password));
+                    user.setRole("ROLE_ADMIN");
+                    userRepository.save(user);
+                    log.info("Verified and updated admin account credentials: {}", email);
+                },
+                () -> {
+                    userRepository.save(UserEntity.builder()
+                            .userId(UUID.randomUUID().toString())
+                            .name("Administrator")
+                            .email(email)
+                            .password(passwordEncoder.encode(password))
+                            .role("ROLE_ADMIN")
+                            .build());
+                    log.info("Bootstrapped initial admin account: {}", email);
+                }
+        );
     }
 }

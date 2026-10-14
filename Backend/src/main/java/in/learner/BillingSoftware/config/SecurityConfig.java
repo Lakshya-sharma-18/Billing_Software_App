@@ -41,10 +41,16 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        // React frontend is running on port 5173
-        config.setAllowedOrigins(
-                List.of(frontend_url,"http://localhost:5173")
-        );
+        List<String> allowedOrigins = new java.util.ArrayList<>(List.of(
+                "https://*.onrender.com",
+                "https://*.netlify.app",
+                "http://localhost:*",
+                "http://127.0.0.1:*"
+        ));
+        if (frontend_url != null && !frontend_url.isBlank()) {
+            allowedOrigins.add(frontend_url.trim());
+        }
+        config.setAllowedOriginPatterns(allowedOrigins);
 
         config.setAllowedMethods(
                 List.of(

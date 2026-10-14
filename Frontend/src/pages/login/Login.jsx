@@ -50,7 +50,10 @@ const Login = () => {
             }
         } catch (error) {
             console.error(error);
-            toast.error("Email/Password Invalid");
+            const msg = error?.response?.data?.message || 
+                        (error?.response?.status === 403 ? "Forbidden / Invalid Credentials" : 
+                        (error?.code === "ERR_NETWORK" ? "Network / CORS Error: Cannot connect to Backend" : "Email or Password Invalid"));
+            toast.error(msg);
         } finally {
             setLoading(false);
         }
