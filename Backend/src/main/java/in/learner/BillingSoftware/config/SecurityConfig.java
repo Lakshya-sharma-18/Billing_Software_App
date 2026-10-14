@@ -95,10 +95,11 @@ public class SecurityConfig {
 
                         // Public endpoints
                         .requestMatchers(
+                                "/",
+                                "/health",
                                 "/login",
                                 "/encode",
                                 "/uploads/**"
-
                         ).permitAll()
 
                         // User/Admin endpoints
