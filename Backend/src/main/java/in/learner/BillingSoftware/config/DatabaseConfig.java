@@ -50,10 +50,10 @@ public class DatabaseConfig {
                 String userInfo = uri.getUserInfo();
                 if (userInfo != null && !userInfo.isEmpty()) {
                     String[] parts = userInfo.split(":", 2);
-                    if (finalUsername == null || finalUsername.isBlank()) {
+                    if (parts[0] != null && !parts[0].isBlank()) {
                         finalUsername = parts[0];
                     }
-                    if (parts.length > 1 && (finalPassword == null || finalPassword.isBlank())) {
+                    if (parts.length > 1 && parts[1] != null && !parts[1].isBlank()) {
                         finalPassword = parts[1];
                     }
                 }
