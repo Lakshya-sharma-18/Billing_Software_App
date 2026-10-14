@@ -1,10 +1,6 @@
-// const url_local="http://localhost:8080";
-const url_production="https://billing-webapp-2.onrender.com";
-
-
-
 import axios from "axios";
+import { API_BASE_URL } from "./apiConfig";
 
-export const login=async (data)=>{
-    return await axios.post(`${url_production}/api/v1.0/login`,data);
-}
+export const login = async (data) => {
+    return await axios.post(`${API_BASE_URL}/api/v1.0/login`, data);
+};

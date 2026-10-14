@@ -1,11 +1,9 @@
 import axios from "axios";
-
-// const url_local="http://localhost:8080";
-const url_production="https://billing-webapp-2.onrender.com";
-
-
+import { API_BASE_URL } from "./apiConfig";
 
 export const fetchDashboardData = async () => {
-    return await axios.get(`${url_production}/api/v1.0/dashboard`,{headers:{'Authorization':`Bearer ${localStorage.getItem("token")}`}});
-}
+    return await axios.get(`${API_BASE_URL}/api/v1.0/dashboard`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem("token")}` }
+    });
+};
 
